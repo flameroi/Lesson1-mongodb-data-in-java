@@ -16,27 +16,27 @@ public class UserRepositoryCustomImpl implements UserReposCustom {
     @Autowired
     MongoTemplate mongoTemplate;
 
-    public long getMaxEmpNo(){
+    public long getMaxEmpNo() {
         Query query = new Query();
-        query.with(new Sort(Sort.Direction.DESC),"ddd");
+        query.with(Sort.by(Sort.Direction.DESC, "id"));
         query.limit(1);
 
         Users maxObject = mongoTemplate.findOne(query, Users.class);
-        if(maxObject == null) {
-        return 0L;
+        if (maxObject == null) {
+            return 0L;
         }
-        return  maxObject.getId();
+        return maxObject.getId();
     }
 
     @Override
-    public long updateUser(String empNo, String fullName){
+    public long updateUser(String empNo, String fullName) {
         Query query = new Query(Criteria.where("empNo").is(empNo));
         Update update = new Update();
         update.set("fullName", fullName);
 
         UpdateResult result = this.mongoTemplate.updateFirst(query, update, Users.class);
 
-        if(result!=null){
+        if (result != null) {
             return result.getModifiedCount();
         }
         return 0;

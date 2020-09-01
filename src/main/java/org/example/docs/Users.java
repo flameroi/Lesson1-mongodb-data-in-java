@@ -10,7 +10,7 @@ public class Users {
     @Id
     private Long id;
 
-    //@Indexed(unique = true)
+    @Indexed(unique = true)
     @Field(value = "Emp_No")
     private String empNo;
 
